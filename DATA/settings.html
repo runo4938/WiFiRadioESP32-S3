@@ -1,0 +1,140 @@
+<!DOCTYPE HTML><html>
+  <head>
+    <title>Settings</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous">
+    <style>
+    html {font-family: Arial; display: inline-block; text-align: center;}
+    h2 {font-size: 1.0rem;}
+   
+    body {max-width: 600px; margin:0px auto; padding-bottom: 25px;}
+    .switch {position: relative; display: inline-block; width: 50px; height: 20px} 
+    .switch input {display: none}
+    .slider {position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; border-radius: 34px}
+    .slider:before {position: absolute; content: ""; height: 20px; width: 20px; left: 2px; bottom: 0px; background-color: #fff; -webkit-transition: .4s; transition: .4s; border-radius: 34px}
+    input:checked+.slider {background-color: #2196F3}
+    input:checked+.slider:before {-webkit-transform: translateX(52px); -ms-transform: translateX(52px); transform: translateX(27px)}
+        .btn {
+    background-color:rgba(0, 0, 0, 0);
+    border: 1px solid #00acc1;
+    box-sizing:border-box;
+    outline-color:#00acc1;
+    text-decoration:none;
+      color: #00acc1;
+      border-radius: 4px;
+      padding: 9px 16px;
+      background-image: none;
+      letter-spacing:1.0px;
+      cursor: pointer;
+      text-transform:uppercase;
+      font-size:14px;
+      line-height: 18px;
+      display: inline-block;
+      vertical-align: middle;
+     }
+    .btn:hover {
+   background-color:rgba(0, 172, 193, 0.04);
+    }
+    .btn:visited {
+      color: #00acc1;
+    }
+     .btn:active {
+   background-color:rgba(0, 172, 193, 0.09);
+    }
+    .contact_form ul {
+    width:750px;
+    list-style-type:none;
+    list-style-position:outside;
+    margin:0px;
+    padding:0px;
+}
+.contact_form li{
+    padding:12px;
+    border-bottom:1px solid #eee;
+    position:relative;
+}
+
+.contact_form label {
+    width:150px;
+    margin-top: 3px;
+    display:inline-block;
+    padding:3px;
+}
+.contact_form input {
+    height:20px;
+    width:220px;
+    padding:5px 8px;
+}
+.contact_form textarea {padding:8px; width:300px;}
+.contact_form button {margin-left:156px;}
+table {
+    border-collapse: separate;
+    border-spacing: 8px 8px;
+}
+  </style>
+  </head>
+  <body>
+    <h2>Weather</h2>     
+            <form action="/get">
+              ApiKey: <input type="text" name="ApiKey" placeholder="ApiKei">
+              <input type="submit" class="btn" value="Submit">
+            </form>        
+            <form action="/get">
+              Latitude: <input type="text" name="Latitude"
+                placeholder="Latitude">
+              <input type="submit" class="btn" value="Submit">
+            </form>
+            <form action="/get">
+              Longitude:<input type="text" name="Longitude"
+                placeholder="Longitude">
+              <input type="submit" class="btn" value="Submit">
+            </form>
+<
+ <h2>Reset password and SSID for new connection<h2>
+<a class="btn" href="/reboot">Reset</a>
+ <input type="button" class="btn" onclick="location.href='/';"
+      value="Main page">
+    
+          <!-- <p>Disign
+      <span id="outputState"></span>
+      <label class="switch"><input type="checkbox"
+          onchange="toggleCheckbox(this)" id="output" " + outputStateValue + "><span
+          class="slider"></span></label>
+    </p> -->
+          <script>
+  
+function toggleCheckbox(element) {
+  var xhr = new XMLHttpRequest();
+  if(element.checked){ xhr.open("GET", "/rotation1", true); }
+  else { xhr.open("GET", "/rotation3", true); }
+  xhr.send();
+}
+
+
+setInterval(function ( ) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var inputChecked;
+      var outputStateM;
+      if( this.responseText == 1){ 
+        inputChecked = true;
+        outputStateM = "On";
+      }
+      else { 
+        inputChecked = false;
+        outputStateM = "Off";
+      }
+      document.getElementById("output").checked = inputChecked;
+      document.getElementById("outputState").innerHTML = outputStateM;
+    }
+  };
+  xhttp.open("GET", "/state", true);
+  xhttp.send();
+}, 1000 ) ;
+</script>
+        </body>
+      </html>
