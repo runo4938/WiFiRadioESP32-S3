@@ -43,23 +43,8 @@ void setup()
   tft.fillScreen(TFT_BLACK);
   tft.setSwapBytes(true);
 
-  // // draw screen
-  // if (EEPROM.read(4) == 1)
-  // {
   lineondisp();
-  // }
-  // else
-  // {
-  //   //  Print local IP
-  //   tft.fillScreen(TFT_BLACK);
-  //   tft.drawRect(0, 0, 320, 240, TFT_CYAN);
-  //   tft.setTextColor(0x9772, TFT_BLACK);
-  //   tft.setTextSize(2);
-  //   tft.setCursor((250 - tft.textWidth(String(WiFi.localIP()))) / 2, ypos + 30);
-  //   tft.drawRect(0, ypos + 23, 319, 27, TFT_CYAN);
-  //   tft.print(WiFi.localIP());
-  // }
-
+ 
   server.onNotFound(notFound);
   server.begin();
   Update.onProgress(printProgress);
@@ -224,7 +209,7 @@ void loop()
         tft.setTextColor(TFT_CYAN);
         tft.setCursor(142, 216);
         tft.fillRect(135, 216, 184, 22, TFT_BLACK);
-        tft.drawString(utf8rus(weather.name) + ", " + String(weather.temp, 1) + "`" + "C", 135, 218);
+        tft.drawString(utf8rus(weather.name), 135, 218);
         lastTime_ssid = millis();
         ssid_show = 1;
         break;
@@ -1045,11 +1030,11 @@ void drawlineClock()
 void lineondisp()
 {
   tft.drawRect(0, 0, 70, 53, TFT_CYAN);
-  tft.fillCircle(35, 25, 20, 0x9772);
+  //tft.fillCircle(35, 25, 20, 0x9772);
   tft.setFreeFont();
   tft.setTextSize(2);
-  tft.setTextColor(TFT_NAVY, TFT_GREEN);
-  tft.drawString("C", 30, 17);
+  tft.setTextColor(TFT_GREEN,TFT_BLACK);
+  tft.drawString(String(weather.temp, 0) + "`" + "C", 7, 20);
   tft.drawRect(70, 0, 250, 53, TFT_CYAN);
   // tft.drawRect(130, 0, 190, 50, TFT_CYAN);
   //  weather
