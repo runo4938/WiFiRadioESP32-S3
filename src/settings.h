@@ -250,7 +250,7 @@ void listDir(fs::FS &fs, const char *dirname, uint8_t levels);
 void deleteFile(fs::FS &fs, const String &path);
 String processor_update(const String &var);
 String processor_playlst(const String &var);
-
+String processor(const String &var);
 String utf8rus(String source);
 void Task1code(void *pvParameters);
 #endif

@@ -1,6 +1,6 @@
-<!DOCTYPE HTML><html>
+<!DOCTYPE HTML><html lang="en">
   <head>
-    <title>Settings</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
@@ -74,38 +74,59 @@ table {
     border-collapse: separate;
     border-spacing: 8px 8px;
 }
+input{
+  background-color: #12cd34;
+  color: #000;
+}
   </style>
   </head>
   <body>
-    <h2>Weather</h2>     
-            <form action="/get">
-              ApiKey: <input type="text" name="ApiKey" placeholder="ApiKei">
-              <input type="submit" class="btn" value="Submit">
-            </form>        
-            <form action="/get">
-              Latitude: <input type="text" name="Latitude"
-                placeholder="Latitude">
-              <input type="submit" class="btn" value="Submit">
-            </form>
-            <form action="/get">
-              Longitude:<input type="text" name="Longitude"
-                placeholder="Longitude">
-              <input type="submit" class="btn" value="Submit">
-            </form>
-<
- <h2>Reset password and SSID for new connection<h2>
-<a class="btn" href="/reboot">Reset</a>
- <input type="button" class="btn" onclick="location.href='/';"
-      value="Main page">
-    
-          <!-- <p>Disign
+    <title>Settings</title>
+    <h2 align="center">Weather</h2>
+    <h2 align="center">%name%</h2>
+    <table align="center">
+      <tr>
+        <td><form action="/get">
+            ApiKey:</td>
+          <td><input type="text" name="ApiKey"
+              placeholder="ApiKei" value=%apikey% size="32"></td>
+          <td><input type="submit" class="btn" value="Submit">
+          </form> </td>
+      </tr>
+      <tr>
+        <td> <form action="/get">
+            Latitude: </td>
+          <td><input type="text" color="b" name="Latitude"
+              placeholder="Latitude" value=%Latitude% size="32"></td>
+          <td> <input type="submit" class="btn" value="Submit">
+          </form></td>
+      </tr>
+      <tr>
+        <td> <form action="/get">
+            Longitude:</td>
+          <td><input type="text" name="Longitude"
+              placeholder="Longitude" value=%Longitude% size="32"></td>
+          <td> <input type="submit" class="btn" value="Submit">
+          </form></td>
+      </tr>
+    </table>
+    <h2 align="center">Reset password and SSID for new connection<h2>
+        <div align="center">
+
+          <a class="btn" href="/reboot" onclick="return confirm('Сбросить пароль?')">Reset</a>
+
+          <input type="button" class="btn" onclick="location.href='/';"
+            value="Main page"></div>
+
+        <!-- <p>Disign
       <span id="outputState"></span>
       <label class="switch"><input type="checkbox"
           onchange="toggleCheckbox(this)" id="output" " + outputStateValue + "><span
           class="slider"></span></label>
     </p> -->
-          <script>
-  
+        <script>
+
+
 function toggleCheckbox(element) {
   var xhr = new XMLHttpRequest();
   if(element.checked){ xhr.open("GET", "/rotation1", true); }
@@ -136,5 +157,5 @@ setInterval(function ( ) {
   xhttp.send();
 }, 1000 ) ;
 </script>
-        </body>
-      </html>
+      </body>
+    </html>

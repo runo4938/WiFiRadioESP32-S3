@@ -123,7 +123,7 @@ void loop()
       tft.setTextSize(1);
       tft.setTextColor(0x9772);
       tft.setFreeFont(&CourierCyr12pt8b);
-      tft.setCursor(272, 108);
+      tft.setCursor(272, 111);
       tft.print(utf8rus(days[CurrentWeek]));
 
       tft.setTextSize(1);
@@ -1448,7 +1448,7 @@ void serverOn()
             { request->send(SPIFFS, "/index.html", String(), false, processor_playlst); });
 
   server.on("/setting", HTTP_GET, [](AsyncWebServerRequest *requiest)
-            { requiest->send(SPIFFS, "/settings.html", String(), false); });
+            { requiest->send(SPIFFS, "/settings.html", String(), false, processor); });
 
   server.on("/update", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/upload.html", String(), false); });
@@ -1510,21 +1510,12 @@ void serverOn()
               request->send(204);
               // vTaskSuspend(myTaskHandle);
               onMenuOFf();
-              //      stations = false;
-              //  nextStation(stations);
-              // vTaskResume(myTaskHandle);
-              //    Если переключили станцию назад
             });
   //----------------------------------
   server.on("/on", HTTP_ANY, [](AsyncWebServerRequest *request)
             {
               request->send(204);
               onMenuOn();
-              // audio.stopSong();
-              //  vTaskSuspend(myTaskHandle);
-              //  stations = true;
-              //  nextStation(stations);
-              //  vTaskResume(myTaskHandle);
             });
   // Send a GET request to <ESP_IP>/get?input1=<inputMessage>
   server.on("/get", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -1693,6 +1684,29 @@ String processor_update(const String &var)
   if (var == "list")
   {
     return filelist;
+  }
+  return String();
+}
+
+String processor(const String &var)
+{
+  // Serial.println(var);
+  if (var == "apikey")
+  {
+    return readFile(SPIFFS, apikeyPath);
+  }
+  if (var == "Latitude")
+  {
+    return readFile(SPIFFS, LatitudePath);
+  }
+  if (var == "Longitude")
+  {
+    return readFile(SPIFFS, LongitudePath);
+  }
+  if (var == "name")
+  {
+    String wn =weather.name;
+    return wn;
   }
   return String();
 }
