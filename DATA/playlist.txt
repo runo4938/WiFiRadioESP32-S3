@@ -15,7 +15,7 @@
 14-UK-nation http://listen-nation.sharp-stream.com/thamesradio.mp3
 15-Авторадио ic7.101.ru:8000/v3_1?0933f5e4
 16-Kommersant kommersant77.hostingradio.ru:8016/kommersant64.mp3
-17-PiFM cdn.pifm.ru/mp3?rn=656
+17-PiFM http://cdn.pifm.ru/mp3?rn=656
 18-Шансон chanson.hostingradio.ru:8041/chanson64.mp3
 19-МоеРадио listen2.myradio24.com/8032
 20-СеребрДождь silverrain.hostingradio.ru/silver64.aac

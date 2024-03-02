@@ -234,7 +234,6 @@ void loop()
   }
 }
 // END LOOP
-
 //*********************************
 // Scrolling
 //*********************************
@@ -978,49 +977,6 @@ void soundShow()
   rnd = true;
 }
 
-void soundShow2()
-{
-  int x_show = 3;
-
-  if (y1_prev > y1_lev)
-  {
-    if (y1_prev > 130)
-    {
-      tft.fillRect(x_show, y1_prev, 25, 4, TFT_LIGHTGREY);
-    }
-    else
-    {
-      tft.fillRect(x_show, y1_prev, 25, 4, TFT_YELLOW);
-    }
-    y1_prev = y1_prev - 6;
-  }
-
-  if (y1_prev < y1_lev)
-  {
-    tft.fillRect(x_show, y1_prev, 25, 4, TFT_BLACK);
-
-    y1_prev = y1_prev + 6;
-  }
-  if (y2_prev > y2_lev)
-  {
-    if (y2_prev > 130)
-    {
-      tft.fillRect(x_show + 28, y2_prev, 25, 4, TFT_LIGHTGREY);
-    }
-    else
-    {
-      tft.fillRect(x_show + 28, y2_prev, 25, 4, TFT_YELLOW);
-    }
-    y2_prev = y2_prev - 6;
-  }
-  if (y2_prev < y2_lev)
-  {
-    tft.fillRect(x_show + 28, y2_prev, 25, 4, TFT_BLACK);
-    y2_prev = y2_prev + 6;
-  }
-  rnd = true;
-}
-
 void drawlineClock()
 { //             x    y    x    y
   tft.fillRect(213, 105, 3, 40, 0x9772);
@@ -1211,8 +1167,6 @@ void printStation(uint8_t indexOfStation)
   tft.setFreeFont(BAHAMAS);
   tft.fillRect(75, 2, 240, 30, TFT_BLACK);
   tft.drawString(utf8rus(StName), 75, 2);
-  // Serial.print("FreePsram = ");
-  // Serial.println(ESP.getFreeHeap());
 } // end PrintStation
 
 // Next station
@@ -1443,7 +1397,6 @@ void messageOn()
 
 void serverOn()
 {
-
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/index.html", String(), false, processor_playlst); });
 
