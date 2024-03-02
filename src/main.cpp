@@ -206,7 +206,7 @@ void loop()
       case 3:
         tft.setTextSize(1);
         tft.setFreeFont(RU10);
-        tft.setTextColor(TFT_CYAN);
+        tft.setTextColor(TFT_GREEN);
         tft.setCursor(142, 216);
         tft.fillRect(135, 216, 184, 22, TFT_BLACK);
         tft.drawString(utf8rus(weather.name), 135, 218);
@@ -989,7 +989,7 @@ void lineondisp()
   // tft.fillCircle(35, 25, 20, 0x9772);
   tft.setFreeFont();
   tft.setTextSize(2);
-  tft.setTextColor(TFT_GREEN, TFT_BLACK);
+  tft.setTextColor(TFT_CYAN, TFT_BLACK);
   tft.drawString(String(weather.temp, 0) + "`" + "C", 7, 20);
   tft.drawRect(70, 0, 250, 53, TFT_CYAN);
   // tft.drawRect(130, 0, 190, 50, TFT_CYAN);
@@ -1563,8 +1563,10 @@ void serverOn()
         inputMessage = "No message sent";
         inputParam1 = "none";
       }
-      request->send(200, "text/html", "HTTP GET request sent to your ESP on input field (" + inputParam1 + ") with value: " + inputMessage + "<br><a href=\"/\">Return to Home Page</a>");
-      rebootEspWithReason("Saved SPIFFS rebotting..."); });
+      request->send(SPIFFS, "/index.html", String(), false, processor_playlst); 
+       rebootEspWithReason("Saved SPIFFS rebotting..."); });
+  //  200, "text/html", "HTTP GET request sent to your ESP on input field (" + inputParam1 + ") with value: " + inputMessage + "<br><a href=\"/\">Return to Home Page</a>");
+  // rebootEspWithReason("Saved SPIFFS rebotting..."); });
 
   server.on("/menu", HTTP_GET, [](AsyncWebServerRequest *request)
             {
