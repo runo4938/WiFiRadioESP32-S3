@@ -77,10 +77,12 @@ table {
 input{
   background-color: #12cd34;
   color: #000;
+ 
 }
   </style>
   </head>
   <body>
+    <>
     <title>Settings</title>
     <h2 align="center">Weather</h2>
     <h2 align="center">%name%</h2>
@@ -90,45 +92,76 @@ input{
             ApiKey:</td>
           <td><input type="text" name="ApiKey"
               placeholder="ApiKei" value=%apikey% size="32"></td>
-          <!-- <td><input type="submit" class="btn" value="Submit">
-          </form>> --> </td
-      </tr>
-      <tr>
-        <!-- <form action="/get"> --> <td>
+           </td
+        </tr>
+        <tr>
+         <td>
             Latitude: </td>
           <td><input type="text" color="b" name="Latitude"
               placeholder="Latitude" value=%Latitude% size="32"></td>
-          <!-- <td> <input type="submit" class="btn" value="Submit">
-          </form></td> --> 
-      </tr>
-      <tr>
-        <!--  <form action="/get"> --><td>
+        </tr>
+        <tr>
+         <td>
             Longitude:</td>
           <td><input type="text" name="Longitude"
               placeholder="Longitude" value=%Longitude% size="32"></td>
-              </tr>
-              <tr>
-                <td></td>
-          <td> <input type="submit" class="btn" value="Submit">
-          </form></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td> <input type="submit" class="btn" value="Submit"> 
+          </td>
+          </form>   
       </tr>
-    </table>
-    <h2 align="center">Reset password and SSID for new connection<h2>
+
+
+      <tr>
+        <td>  Пока не работает 
+          <p><span id="textSliderValue">%SLIDERVALUE%</span></p>
+        
+        </td>
+      </tr>
+      <tr>
+        <td>
+         
+      </td>
+      </tr>
+      <tr></tr>
+      <tr>
+        <td>
+            </td>
+          </tr>
+        </table>
         <div align="center">
+           <input type="range" class="btn" style="width: 50%;"
+            onchange="updateSliderPWM(this)"
+             id="pwmSlider"
+            min="0" max="20" value="%SLIDERVALUE%" step="1" class="slider">
+          </div>
+       
+          <h2 align="center">Reset password and SSID for new connection</h2>
+        <a class="btn" href="/reboot"
+          onclick="return confirm('Сбросить пароль?')">Reset</a>
 
-          <a class="btn" href="/reboot" onclick="return confirm('Сбросить пароль?')">Reset</a>
+        <input type="button" class="btn" onclick="location.href='/';"
+          value="Main page">
 
-          <input type="button" class="btn" onclick="location.href='/';"
-            value="Main page"></div>
+      </div>
 
-       <!-- <p>Disign
+      <!-- <p>Disign
       <span id="outputState"></span>
       <label class="switch"><input type="checkbox"
           onchange="toggleCheckbox(this)" id="output" " + outputStateValue + "><span
           class="slider"></span></label>
     </p>  -->
-        <script>
-
+      <script>
+function updateSliderPWM(element) {
+  var sliderValue = document.getElementById("pwmSlider").value;
+  document.getElementById("textSliderValue").innerHTML = sliderValue;
+  console.log(sliderValue);
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "/slider?value="+sliderValue, true);
+  xhr.send();
+}
 
 function toggleCheckbox(element) {
   var xhr = new XMLHttpRequest();
@@ -160,5 +193,5 @@ setInterval(function ( ) {
   xhttp.send();
 }, 1000 ) ;
 </script>
-      </body>
-    </html>
+    </body>
+  </html>
