@@ -1470,7 +1470,7 @@ void serverOn()
               onMenuOn(); });
   // Send a GET request to <ESP_IP>/get?input1=<inputMessage>
   server.on("/get", HTTP_GET, [](AsyncWebServerRequest *request)
-            { handleForm();
+            { 
     String inputMessage = "";
     String inputMessage1 = "";
     String inputMessage2 = "";
@@ -1570,10 +1570,6 @@ void serverOn()
             {
              request->send(204);
              onMenu(); });
-}
-
-void handleForm()
-{
 }
 
 void onMenuOFf()
