@@ -44,7 +44,7 @@ void setup()
   tft.setSwapBytes(true);
 
   lineondisp();
- 
+
   server.onNotFound(notFound);
   server.begin();
   Update.onProgress(printProgress);
@@ -986,10 +986,10 @@ void drawlineClock()
 void lineondisp()
 {
   tft.drawRect(0, 0, 70, 53, TFT_CYAN);
-  //tft.fillCircle(35, 25, 20, 0x9772);
+  // tft.fillCircle(35, 25, 20, 0x9772);
   tft.setFreeFont();
   tft.setTextSize(2);
-  tft.setTextColor(TFT_GREEN,TFT_BLACK);
+  tft.setTextColor(TFT_GREEN, TFT_BLACK);
   tft.drawString(String(weather.temp, 0) + "`" + "C", 7, 20);
   tft.drawRect(70, 0, 250, 53, TFT_CYAN);
   // tft.drawRect(130, 0, 190, 50, TFT_CYAN);
@@ -1462,79 +1462,118 @@ void serverOn()
             {
               request->send(204);
               // vTaskSuspend(myTaskHandle);
-              onMenuOFf();
-            });
+              onMenuOFf(); });
   //----------------------------------
   server.on("/on", HTTP_ANY, [](AsyncWebServerRequest *request)
             {
               request->send(204);
-              onMenuOn();
-            });
+              onMenuOn(); });
   // Send a GET request to <ESP_IP>/get?input1=<inputMessage>
   server.on("/get", HTTP_GET, [](AsyncWebServerRequest *request)
-            {
+            { handleForm();
     String inputMessage = "";
+    String inputMessage1 = "";
+    String inputMessage2 = "";
+    String inputMessage3 = "";
     String inputParam;
+    String inputParam1;
+    String inputParam2;
+    String inputParam3;
     // GET input1 value on <ESP_IP>/get?input1=<inputMessage>
     if (request->hasParam(PARAM_INPUT_1))
     {
-      inputMessage += request->getParam(PARAM_INPUT_1)->value();
-      inputParam = PARAM_INPUT_1;
-      file = SPIFFS.open(String("/") + "apikey", FILE_WRITE);
+      inputMessage1 += request->getParam(PARAM_INPUT_1)->value();
+      inputMessage2 += request->getParam(PARAM_INPUT_2)->value();
+      inputMessage3 += request->getParam(PARAM_INPUT_3)->value();
+      inputMessage += inputMessage1 +" " +inputMessage2+" " +inputMessage3;
+
+      inputParam1 = PARAM_INPUT_1;
+      inputParam += String(PARAM_INPUT_1) + " " + String(PARAM_INPUT_2) + " " + String(PARAM_INPUT_3);
+      Serial.println(inputMessage1);
+      Serial.println(inputMessage2);
+      Serial.println(inputMessage3);
+       file = SPIFFS.open(String("/") + "apikey", FILE_WRITE);
+       if (!file)
+       {
+         Serial.println("- failed to open file for writing");
+      }
+      else
+      {
+       file.print(inputMessage1);
+       file.close();
+      }
+      //Latitude
+      file = SPIFFS.open(String("/") + "Latitude", FILE_WRITE);
       if (!file)
       {
         Serial.println("- failed to open file for writing");
       }
       else
       {
-       file.print(inputMessage);
-       file.close();
+        file.print(inputMessage2);
+        file.close();
       }
-    }
-      // GET input2 value on <ESP_IP>/get?input2=<inputMessage>
-      else if (request->hasParam(PARAM_INPUT_2))
+      //Longitude
+      file = SPIFFS.open(String("/") + "Longitude", FILE_WRITE);
+      if (!file)
       {
-        inputMessage += request->getParam(PARAM_INPUT_2)->value();
-        inputParam = PARAM_INPUT_2;
-        file = SPIFFS.open(String("/") + "Latitude", FILE_WRITE);
-        if (!file)
-        {
-          Serial.println("- failed to open file for writing");
-        }
-        else
-        {
-          file.print(inputMessage);
-          file.close();
-        }
+        Serial.println("- failed to open file for writing");
       }
-      // GET input3 value on <ESP_IP>/get?input3=<inputMessage>
-      else if (request->hasParam(PARAM_INPUT_3))
+      else
       {
-        inputMessage += request->getParam(PARAM_INPUT_3)->value();
-        inputParam = PARAM_INPUT_3;
-         file = SPIFFS.open(String("/") + "Longitude", FILE_WRITE);
-        if (!file)
-        {
-          Serial.println("- failed to open file for writing");
-        }
-        else
-        {
-          file.print(inputMessage);
-          file.close();
-        }
+        file.print(inputMessage3);
+        file.close();
+      }
+    // }
+    //   // GET input2 value on <ESP_IP>/get?input2=<inputMessage>
+    //   else if (request->hasParam(PARAM_INPUT_2))
+    //   {
+    //     inputMessage += request->getParam(PARAM_INPUT_2)->value();
+    //     inputParam2 = PARAM_INPUT_2;
+    //     file = SPIFFS.open(String("/") + "Latitude", FILE_WRITE);
+    //     if (!file)
+    //     {
+    //       Serial.println("- failed to open file for writing");
+    //     }
+    //     else
+    //     {
+    //       file.print(inputMessage);
+    //       file.close();
+    //     }
+    //   }
+    //   // GET input3 value on <ESP_IP>/get?input3=<inputMessage>
+    //   else if (request->hasParam(PARAM_INPUT_3))
+    //   {
+    //     inputMessage += request->getParam(PARAM_INPUT_3)->value();
+    //     inputParam3 = PARAM_INPUT_3;
+    //     Serial.println(inputParam3);
+    //      file = SPIFFS.open(String("/") + "Longitude", FILE_WRITE);
+    //     if (!file)
+    //     {
+    //       Serial.println("- failed to open file for writing");
+    //     }
+    //     else
+    //     {
+    //       file.print(inputMessage);
+    //       file.close();
+    //     }
       }
       else
       {
         inputMessage = "No message sent";
-        inputParam = "none";
+        inputParam1 = "none";
       }
-      Serial.println(inputMessage);
-      request->send(200, "text/html", "HTTP GET request sent to your ESP on input field (" + inputParam + ") with value: " + inputMessage + "<br><a href=\"/\">Return to Home Page</a>"); });
+      request->send(200, "text/html", "HTTP GET request sent to your ESP on input field (" + inputParam1 + ") with value: " + inputMessage + "<br><a href=\"/\">Return to Home Page</a>");
+      rebootEspWithReason("Saved SPIFFS rebotting..."); });
 
   server.on("/menu", HTTP_GET, [](AsyncWebServerRequest *request)
             {
              request->send(204);
              onMenu(); });
+}
+
+void handleForm()
+{
 }
 
 void onMenuOFf()
@@ -1658,7 +1697,7 @@ String processor(const String &var)
   }
   if (var == "name")
   {
-    String wn =weather.name;
+    String wn = weather.name;
     return wn;
   }
   return String();
