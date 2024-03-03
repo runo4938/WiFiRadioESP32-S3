@@ -360,6 +360,16 @@ void readEEprom()
   {
     NEWStation = EEPROM.read(2);
   }
+
+  if (EEPROM.read(6) > 21)
+  {
+    sliderValue = 15;
+  }
+  else
+  {
+    sliderValue = EEPROM.read(6);
+    audio.setVolume(sliderValue.toInt());
+  }
 }
 //****************************
 //    WiFi
@@ -1403,6 +1413,25 @@ void serverOn()
   server.on("/setting", HTTP_GET, [](AsyncWebServerRequest *requiest)
             { requiest->send(SPIFFS, "/settings.html", String(), false, processor); });
 
+  server.on("/slider", HTTP_GET, [](AsyncWebServerRequest *request)
+            {
+    String inputMessage;
+    // GET input1 value on <ESP_IP>/slider?value=<inputMessage>
+    if (request->hasParam(PARAM_INPUT)) {
+      inputMessage = request->getParam(PARAM_INPUT)->value();
+      sliderValue = inputMessage;
+      Serial.println(sliderValue);
+      audio.setVolume(sliderValue.toInt());
+      EEPROM.write(6, sliderValue.toInt());
+      EEPROM.commit();
+      //filePosition();
+    }
+    else {
+      inputMessage = "No message sent";
+    }
+    Serial.println(inputMessage);
+    request->send(200, "text/plain", "OK"); });
+
   server.on("/update", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/upload.html", String(), false); });
 
@@ -1698,6 +1727,12 @@ String processor(const String &var)
     String wn = weather.name;
     return wn;
   }
+
+  if (var == "SLIDERVALUE")
+  {
+    return sliderValue;
+  }
+
   return String();
 }
 

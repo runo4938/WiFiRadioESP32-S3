@@ -71,7 +71,11 @@ String nameStations[30];   // Наименования станций
 String apikey = F("30a9767f8d62e95546ea92a956457507"); // API key
 String Latitude = F("44.0511");                        //
 String Longitude = F("44.5408");                       //
-String lang = F("&lang=ru");                           // this is your language
+String lang = F("&lang=ru");      // this is your language
+
+String sliderValue="15";
+const char *PARAM_INPUT = "value";
+
 UnixTime stamp(3);
 
 const char *apikeyPath = "/apikey";
