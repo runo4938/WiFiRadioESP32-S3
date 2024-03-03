@@ -18,6 +18,8 @@ void setup()
   tft.setCursor(40, 60);
   tft.println("Starting Radio...");
 
+  audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
+
   initSpiffs();
   initWiFi();
   tft.fillScreen(TFT_BLACK);
@@ -36,9 +38,8 @@ void setup()
   serverOn();
 
   messageOn();
-  audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
-  audio.setVolume(15);
-  audio.connecttohost("rmx.amgradio.ru/RemixFM"); // переключаем станцию
+
+ // audio.connecttohost("rmx.amgradio.ru/RemixFM"); // переключаем станцию
 
   tft.fillScreen(TFT_BLACK);
   tft.setSwapBytes(true);
@@ -58,7 +59,7 @@ void setup()
       &myTaskHandle, /* Дескриптор задачи для отслеживания */
       0);            /* Указываем пин для данного ядра */
   delay(1);
-  txtSprite.createSprite(242, 25); // Ширина и высота спрайта
+  txtSprite.createSprite(242, 22); // Ширина и высота спрайта
   txtSprite.setTextSize(1);
   txtSprite.setTextColor(0x9772, TFT_BLACK);
   txtSprite.fillSprite(TFT_BLACK);
@@ -146,7 +147,7 @@ void loop()
       audio.pauseResume();
       printStation(NEWStation);
       delay(100);
-      audio.setVolume(volume);
+      audio.setVolume(EEPROM.read(6));
       audio.connecttohost(sl); // новая станция
       OLDStation = NEWStation;
     }
@@ -229,7 +230,7 @@ void loop()
     }
     if (!allow)
     {
-      scrollMain(true, 71, 28, 5);
+      scrollMain(true, 71, 31, 5);
     }
   }
 }
@@ -364,6 +365,8 @@ void readEEprom()
   if (EEPROM.read(6) > 21)
   {
     sliderValue = 15;
+    EEPROM.write(6,15);
+    EEPROM.commit();
   }
   else
   {
@@ -1176,7 +1179,7 @@ void printStation(uint8_t indexOfStation)
   tft.setTextSize(1);
   tft.setFreeFont(BAHAMAS);
   tft.fillRect(75, 2, 240, 30, TFT_BLACK);
-  tft.drawString(utf8rus(StName), 75, 2);
+  tft.drawString(utf8rus(StName), 75, 1);
 } // end PrintStation
 
 // Next station
@@ -1297,16 +1300,16 @@ void stationDisplay(int st)
 //**********************************
 // File position Уровень громкости
 //**********************************
-int x_FP = 65, y_FP = ypos + 12; // position in line
-void filePosition()
-{
-  // Serial.print("Volume = ");
-  // Serial.println(volume);
-  volume = audio.getVolume();
-  tft.fillRect(x_FP, y_FP - 2, 250, 8, TFT_BLACK);
-  tft.drawRect(x_FP, y_FP, 252, 6, TFT_MAGENTA);
-  tft.fillRect(x_FP, y_FP, volume * 10, 6, TFT_MAGENTA);
-}
+// int x_FP = 65, y_FP = ypos + 12; // position in line
+// void filePosition()
+// {
+//   // Serial.print("Volume = ");
+//   // Serial.println(volume);
+//   volume = audio.getVolume();
+//   tft.fillRect(x_FP, y_FP - 2, 250, 8, TFT_BLACK);
+//   tft.drawRect(x_FP, y_FP, 252, 6, TFT_MAGENTA);
+//   tft.fillRect(x_FP, y_FP, volume * 10, 6, TFT_MAGENTA);
+// }
 
 String utf8rus(String source)
 {
@@ -1730,7 +1733,7 @@ String processor(const String &var)
 
   if (var == "SLIDERVALUE")
   {
-    return sliderValue;
+    return String(EEPROM.read(6));
   }
 
   return String();

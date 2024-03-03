@@ -47,7 +47,7 @@ Audio audio;
 #define I2S_DOUT 16 // 27 // 18 // DIN connection
 #define I2S_BCLK 17 // // Bit clock
 #define I2S_LRC 18  //  // Left Right Clock
-int volume = 15;    // end audio
+//int volume = 15;    // end audio
 
 // encoder
 #define CLK 4 // 35 //
@@ -73,7 +73,7 @@ String Latitude = F("44.0511");                        //
 String Longitude = F("44.5408");                       //
 String lang = F("&lang=ru");      // this is your language
 
-String sliderValue="15";
+String sliderValue;
 const char *PARAM_INPUT = "value";
 
 UnixTime stamp(3);
