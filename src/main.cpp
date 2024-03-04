@@ -39,7 +39,7 @@ void setup()
 
   messageOn();
 
- // audio.connecttohost("rmx.amgradio.ru/RemixFM"); // переключаем станцию
+  // audio.connecttohost("rmx.amgradio.ru/RemixFM"); // переключаем станцию
 
   tft.fillScreen(TFT_BLACK);
   tft.setSwapBytes(true);
@@ -232,6 +232,12 @@ void loop()
     {
       scrollMain(true, 71, 31, 5);
     }
+
+    if (volUpdate)
+    {
+      audioVolume();
+      volUpdate = false;
+    }
   }
 }
 // END LOOP
@@ -365,7 +371,7 @@ void readEEprom()
   if (EEPROM.read(6) > 21)
   {
     sliderValue = 15;
-    EEPROM.write(6,15);
+    EEPROM.write(6, 15);
     EEPROM.commit();
   }
   else
@@ -964,27 +970,27 @@ void myEncoder()
 // Показать VUmeter
 void soundShow()
 {
-  int y_show = 134;
+  int y_show = 131; // 134;
 
   if (x1_prev > x1_lev)
   {
-    tft.fillRect(x1_prev, y_show, 4, 23, TFT_BLACK);
+    tft.fillRect(x1_prev, y_show, 4, 20, TFT_BLACK);
     x1_prev = x1_prev - 7;
   }
   if (x1_prev < x1_lev)
   {
-    tft.fillRect(x1_prev, y_show, 4, 23, TFT_GREEN);
+    tft.fillRect(x1_prev, y_show, 4, 20, TFT_GREEN);
     x1_prev = x1_prev + 7;
   }
 
   if (x2_prev > x2_lev)
   {
-    tft.fillRect(x2_prev, y_show + 28, 4, 23, TFT_BLACK);
+    tft.fillRect(x2_prev, y_show + 25, 4, 20, TFT_BLACK);
     x2_prev = x2_prev - 7;
   }
   if (x2_prev < x2_lev)
   {
-    tft.fillRect(x2_prev, y_show + 28, 4, 23, TFT_GREEN);
+    tft.fillRect(x2_prev, y_show + 25, 4, 20, TFT_GREEN);
     x2_prev = x2_prev + 7;
   }
   rnd = true;
@@ -1025,7 +1031,7 @@ void lineondisp()
   tft.drawString("WiFi", 99, 135);
   // weather
   tft.drawRect(0, 195, 320, 45, TFT_CYAN);
-
+  audioVolume();
   // tft.drawRect(0, 215, 320, 25, TFT_CYAN);
 }
 
@@ -1298,18 +1304,18 @@ void stationDisplay(int st)
 }
 
 //**********************************
-// File position Уровень громкости
+int x_FP = 162, y_FP = ypos - 7; // position in line
 //**********************************
-// int x_FP = 65, y_FP = ypos + 12; // position in line
-// void filePosition()
-// {
-//   // Serial.print("Volume = ");
-//   // Serial.println(volume);
-//   volume = audio.getVolume();
-//   tft.fillRect(x_FP, y_FP - 2, 250, 8, TFT_BLACK);
-//   tft.drawRect(x_FP, y_FP, 252, 6, TFT_MAGENTA);
-//   tft.fillRect(x_FP, y_FP, volume * 10, 6, TFT_MAGENTA);
-// }
+// level of Volume  Уровень громкости
+//**********************************
+int volumeLevel;
+void audioVolume()
+{
+  volumeLevel = audio.getVolume() * 7;
+  tft.fillRect(x_FP, y_FP, 156, 5, TFT_BLACK);
+  tft.drawRect(x_FP, y_FP, 156, 6, TFT_DARKGREEN);
+  tft.fillRect(x_FP, y_FP, volumeLevel, 6, TFT_MAGENTA);
+}
 
 String utf8rus(String source)
 {
@@ -1423,11 +1429,10 @@ void serverOn()
     if (request->hasParam(PARAM_INPUT)) {
       inputMessage = request->getParam(PARAM_INPUT)->value();
       sliderValue = inputMessage;
-      Serial.println(sliderValue);
       audio.setVolume(sliderValue.toInt());
       EEPROM.write(6, sliderValue.toInt());
       EEPROM.commit();
-      //filePosition();
+      volUpdate=true;
     }
     else {
       inputMessage = "No message sent";

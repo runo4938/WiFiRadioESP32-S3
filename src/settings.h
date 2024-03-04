@@ -47,7 +47,7 @@ Audio audio;
 #define I2S_DOUT 16 // 27 // 18 // DIN connection
 #define I2S_BCLK 17 // // Bit clock
 #define I2S_LRC 18  //  // Left Right Clock
-//int volume = 15;    // end audio
+// int volume = 15;    // end audio
 
 // encoder
 #define CLK 4 // 35 //
@@ -71,7 +71,7 @@ String nameStations[30];   // Наименования станций
 String apikey = F("30a9767f8d62e95546ea92a956457507"); // API key
 String Latitude = F("44.0511");                        //
 String Longitude = F("44.5408");                       //
-String lang = F("&lang=ru");      // this is your language
+String lang = F("&lang=ru");                           // this is your language
 
 String sliderValue;
 const char *PARAM_INPUT = "value";
@@ -137,7 +137,7 @@ unsigned long intervalForMenu; // Для возврата из меню по и�
 unsigned long lastTime = 0;
 unsigned long lastTime_ssid = 0;
 unsigned long timerDelay_ssid = 4000;
-
+bool volUpdate = true;
 uint32_t targetTime_clock = 0; // update clock every second
 
 uint32_t vumetersDelay = 250;
@@ -230,7 +230,6 @@ void updateFromFS(fs::FS &fs);
 bool decode_json(Stream &jsonStr);
 void myEncoder();
 void soundShow();
-void soundShow2();
 void drawlineClock();
 void lineondisp();
 void wifiLevel();
@@ -240,10 +239,9 @@ void printCodecAndBitrate1();
 void printStation(uint8_t indexOfStation);
 void nextStation(bool stepStation);
 void stationDisplay(int st);
-void filePosition();
+void audioVolume();
 void serverOn();
 void messageOn();
-
 
 String readFile(fs::FS &fs, const char *path);
 void listDir(fs::FS &fs, const char *dirname, uint8_t levels);
