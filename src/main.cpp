@@ -1091,27 +1091,6 @@ void printCodecAndBitrate()
   EEPROM.commit();
 }
 
-void printCodecAndBitrate1()
-{
-  tft.setTextColor(0x9772, TFT_BLACK);
-  tft.setFreeFont(&CourierCyr10pt8b);
-  tft.setTextSize(1);
-  // tft.drawString(String(bitrateInt), 5, ypos + 28);
-  tft.fillRect(4, ypos + 26, 62, 23, TFT_BLACK);
-  tft.drawString(String(audio.getCodecname()).substring(0, 3), 276, ypos + 28);
-  int bit = bitrate.toInt();
-  if (bit < 128000)
-  {
-    tft.drawString(String(bit).substring(0, 2) + "k ", 5, ypos + 28);
-  }
-  else
-  {
-    tft.drawString(bitrate.substring(0, 3) + "k", 5, ypos + 28);
-  }
-  EEPROM.write(2, NEWStation);
-  EEPROM.commit();
-}
-
 // WiFi level
 void wifiLevel()
 {
@@ -1504,7 +1483,7 @@ void serverOn()
   server.on("/on", HTTP_ANY, [](AsyncWebServerRequest *request)
             {
               request->send(204);
-              onMenuOn(); });
+              onMenuOn();});
   // Send a GET request to <ESP_IP>/get?input1=<inputMessage>
   server.on("/get", HTTP_GET, [](AsyncWebServerRequest *request)
             { 
@@ -1627,6 +1606,7 @@ void onMenuOFf()
     stationDisplay(NEWStation);
     currentMillis = millis(); // Пока ходим по меню
   }
+
   // если меню
 }
 
@@ -1690,6 +1670,7 @@ String readFile(fs::FS &fs, const char *path)
 }
 
 //----------filesystem
+
 String processor_playlst(const String &var)
 {
   // Serial.println(var);
@@ -1702,6 +1683,11 @@ String processor_playlst(const String &var)
   {
     return FIRMWARE_VERSION;
   }
+  if (var == "currentstation")
+  {
+    return nameStations[NEWStation];
+  }
+
   return String();
 }
 

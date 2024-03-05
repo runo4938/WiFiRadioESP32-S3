@@ -235,7 +235,6 @@ void lineondisp();
 void wifiLevel();
 void print_Img(int x, int y, String WeaIcon);
 void printCodecAndBitrate();
-void printCodecAndBitrate1();
 void printStation(uint8_t indexOfStation);
 void nextStation(bool stepStation);
 void stationDisplay(int st);
