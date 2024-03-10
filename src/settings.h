@@ -31,7 +31,7 @@
 #define FIRMWARE_VERSION "2.0.1"
 
 int currentVersion = 0; // increment currentVersion in each release
-String baseUrl = "https://raw.githubusercontent.com/runo4938/esp32-s3_st7789/main/";
+String baseUrl = "https://raw.githubusercontent.com/runo4938/WiFiRadioESP32-S3/master/";
 String checkFile = "src/update.json";
 int fwVersion = 0;
 bool fwCheck = false;

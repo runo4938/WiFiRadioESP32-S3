@@ -485,8 +485,8 @@ String make_str(String str)
 
 void newVer()
 {
-  // if (EEPROM.read(3) == 1)
-  // {
+  if (EEPROM.read(3) == 1)
+   {
     EEPROM.write(3, 0); // don't update
     EEPROM.commit();
 
@@ -518,7 +518,7 @@ void newVer()
         Serial.println("Download failed");
       }
     }
-  //}
+  }
 }
 //--weather ---
 void Get_Weather_http(String &MSG_http)
