@@ -230,7 +230,7 @@ void updateFromFS(fs::FS &fs);
 bool decode_json(Stream &jsonStr);
 void myEncoder();
 void soundShow();
-void drawlineClock();
+//void drawlineClock();
 void lineondisp();
 void wifiLevel();
 void print_Img(int x, int y, String WeaIcon);

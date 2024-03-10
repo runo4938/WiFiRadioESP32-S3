@@ -485,8 +485,8 @@ String make_str(String str)
 
 void newVer()
 {
-  if (EEPROM.read(3) == 1)
-  {
+  // if (EEPROM.read(3) == 1)
+  // {
     EEPROM.write(3, 0); // don't update
     EEPROM.commit();
 
@@ -518,7 +518,7 @@ void newVer()
         Serial.println("Download failed");
       }
     }
-  }
+  //}
 }
 //--weather ---
 void Get_Weather_http(String &MSG_http)
@@ -773,7 +773,6 @@ bool checkFirmware()
     Serial.println(fwVersion);
   }
   http.end();
-
   return stat;
 }
 
@@ -1358,8 +1357,6 @@ void audio_showstreamtitle(const char *info)
 
 void audio_bitrate(const char *info)
 {
-  // Serial.print("bitrate     ");
-  // Serial.println(info);
   bitrate = info;
 }
 void messageOn()
@@ -1483,7 +1480,7 @@ void serverOn()
   server.on("/on", HTTP_ANY, [](AsyncWebServerRequest *request)
             {
               request->send(204);
-              onMenuOn();});
+              onMenuOn(); });
   // Send a GET request to <ESP_IP>/get?input1=<inputMessage>
   server.on("/get", HTTP_GET, [](AsyncWebServerRequest *request)
             { 
