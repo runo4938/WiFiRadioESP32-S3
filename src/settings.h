@@ -28,6 +28,8 @@
 #define DIG20 &DIG_Bold_20
 #define RU8 &FreeMonoBold8pt8b
 
+//#define Serial_Print
+
 #define FIRMWARE_VERSION "2.0.1"
 
 int currentVersion = 0; // increment currentVersion in each release
@@ -104,6 +106,8 @@ GyverNTP ntp(3);
 AsyncWebServer server(80);
 TaskHandle_t Task1;
 TaskHandle_t myTaskHandle = NULL;
+
+TaskHandle_t myTaskHandle2 = NULL;
 
 bool first = true; // Вывести дату и день недели
 // bool http_acp = true;

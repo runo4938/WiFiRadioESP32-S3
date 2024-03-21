@@ -25,6 +25,7 @@ void setup()
   tft.fillScreen(TFT_BLACK);
   tft.setCursor(40, 90);
   tft.println("Connected to SSID: ");
+ 
   tft.setCursor(40, 120);
   tft.println(WiFi.SSID());
   delay(1000);
@@ -49,6 +50,9 @@ void setup()
   server.onNotFound(notFound);
   server.begin();
   Update.onProgress(printProgress);
+
+  //vTaskDelete(myTaskHandle2);
+
   // For CORE0
   xTaskCreatePinnedToCore(
       Task1code,     /* Функция задачи. */
@@ -59,6 +63,7 @@ void setup()
       &myTaskHandle, /* Дескриптор задачи для отслеживания */
       0);            /* Указываем пин для данного ядра */
   delay(1);
+
   txtSprite.createSprite(242, 22); // Ширина и высота спрайта
   txtSprite.setTextSize(1);
   txtSprite.setTextColor(0x9772, TFT_BLACK);
@@ -85,6 +90,7 @@ void Task1code(void *pvParameters)
     vTaskDelay(2);
   }
 }
+
 int timer_interval = 3000;
 bool allow = true;
 // int timer_interval_W = 3000;
@@ -486,7 +492,7 @@ String make_str(String str)
 void newVer()
 {
   if (EEPROM.read(3) == 1)
-   {
+  {
     EEPROM.write(3, 0); // don't update
     EEPROM.commit();
 
@@ -586,7 +592,7 @@ void getWeather()
     if (httpCode > 0)
     {
       Stream &response = http.getStream(); // ответ
-      decode_json(response);               // парсинг данных из JsonObject                    // парсинг данных из JsonObject
+      decode_json(response);               // парсинг данных из JsonObject
 #ifdef Serial_Print                        //  отладка
       Serial.println(" - - weather - - ");
       Serial.print("weather.lon ");
