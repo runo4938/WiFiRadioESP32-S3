@@ -1014,9 +1014,10 @@ void lineondisp()
   tft.setFreeFont();
   tft.setTextSize(2);
   tft.setTextColor(TFT_CYAN, TFT_BLACK);
+  tft.fillRectVGradient(2, 2, 67, 50, TFT_BROWN, TFT_BLACK); // new string
   tft.drawString(String(weather.temp, 0) + "`" + "C", 7, 20);
+  
   tft.drawRect(70, 0, 250, 53, TFT_CYAN);
-  // tft.drawRect(130, 0, 190, 50, TFT_CYAN);
   //  weather
   tft.drawRect(0, 53, 90, 70, TFT_CYAN);
   tft.setSwapBytes(true);
@@ -1298,7 +1299,7 @@ void audioVolume()
   volumeLevel = audio.getVolume() * 7;
   tft.fillRect(x_FP, y_FP, 156, 5, TFT_BLACK);
   tft.drawRect(x_FP, y_FP, 156, 6, TFT_DARKGREEN);
-  tft.fillRect(x_FP, y_FP, volumeLevel, 6, TFT_MAGENTA);
+  tft.fillRect(x_FP, y_FP, volumeLevel, 6, TFT_DARKGREY);
 }
 
 String utf8rus(String source)
